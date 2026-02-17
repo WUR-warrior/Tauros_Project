@@ -1,0 +1,37 @@
+#!/bin/bash
+
+#SBATCH --time=2-25:00:00
+
+#SBATCH -N 1
+
+#SBATCH -c 1
+
+#SBATCH --mem=100000
+
+#SBATCH --qos=Std
+
+#SBATCH --output=slurm.output_minimap%j.txt
+
+#SBATCH --error=slurm.error_minimap%j.txt
+
+ml legacy
+
+ml groups
+
+ml load samtools/gcc/64/1.9
+
+ml minimap2
+
+dir_ref=/lustre/nobackup/WUR/ABGC/shared/Taurus/ARS-UCD1.2
+dir=/lustre/nobackup/WUR/ABGC/shared/Taurus/Raw_reads
+outdir=/lustre/nobackup/WUR/ABGC/shared/Tauros/minimap2
+
+cd /lustre/nobackup/WUR/ABGC/shared/Tauros/minimap2/
+
+#ran minimap command in the terminal, it was under standard settings
+
+samtools index ${outdir}/Taurus.alignment_sorted.bam
+
+echo "Taurus" > ${outdir}/Taurus.alignment.txt
+
+samtools flagstat ${outdir}/Taurus.alignment_sorted.bam >> ${outdir}/Taurus.alignment.txt

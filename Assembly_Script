@@ -1,0 +1,116 @@
+
+#moving pipeline to home folder 
+cp -r /lustre/nobackup/WUR/ABGC/shared/pipelines_version2/nanopore-assembly-without-polishing/ /home/WUR/watts001
+
+#setting up a screen session to stop timeouts or disconnects
+screen -S assembly
+
+#Scheduling a job, time and memory to be filled in, what does comment do?
+#!/bin/bash
+#SBATCH --comment=773320000
+#SBATCH --time=1-25:00:00
+#SBATCH --mem=4000
+#SBATCH --cpus-per-task=1
+#SBATCH --output=slurm.output_nanopore_assembly2%j.txt
+#SBATCH --error=slurm.error_nanopore_assembly2%j.txt
+#SBATCH --job-name=nanopore_assembly
+#SBATCH --mail-type=ALL
+#SBATCH --mail-user=https://matt.watts@wur.nl
+
+#need to change directory to get snakemake to run? because i dont have it loaded in the environment, ultimately unneccesary 
+cd /home/WUR/watts001/nanopore-assembly-without-polishing
+#creating a directory
+mkdir -p ~/.config/snakemake/assembly
+
+#edit the configuration file
+jobs: 10
+cluster: "sbatch -t 1:0:0 --mem=16000 -c 16 --job-name={rule} --exclude=fat001,fat002,fat101,fat100 --output=logs_slurm/{rule}_%j.out --error=logs_slurm/{rule}_%j.err"
+
+#activate the pipeline
+conda activate /lustre/nobackup/WUR/ABGC/shared/pipelines_version2/envs/nanopore-assembly2
+
+#details for config file of file location and parameters, tbd what my files look like
+LONGREADS: /lustre/nobackup/WUR/ABGC/shared/Taurus/Raw_reads/Taurus.fastq
+GENOME_SIZE: 2.857605192e9
+PREFIX: Tauros_Test
+OUTDIR: /lustre/nobackup/WUR/ABGC/shared/Tauros/<runname>
+BUSCO_LINEAGE:
+  - mammalia_odb12
+
+#retrieved reference from: https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/002/263/795/GCF_002263795.1_ARS-UCD1.2/ 
+# genome alignment parameters:
+COMPARISON_GENOME:
+ ARS-UCD1.2: /lustre/nobackup/WUR/ABGC/shared/Taurus/ARS-UCD1.2/GCF_002263795.1_ARS-UCD1.2_genomic.fna.gz
+# filter alignments less than cutoff X bp
+MIN_ALIGNMENT_LENGTH: 10000
+MIN_QUERY_LENGTH: 50000
+
+# filter alignments less than cutoff X bp
+MIN_ALIGNMENT_LENGTH: 10000
+MIN_QUERY_LENGTH: 50000
+
+#dry run of snakemake
+snakemake -np
+
+#command to run pipeline, what needs to be filled in?
+snakemake -j 2 --cluster-config cluster.yaml --cluster "sbatch --mem={cluster.mem} --time {cluster.time} --cpus-per-task {cluster.threads} --job-name={cluster.name} --output={cluster.output} --error={cluster.error}"
+
+#end with deactivating conda
+conda deactivate
+
+#disconnect from screen session is ctrl A + D
+#reconnect to screen session is 
+screen -r <screen_name>
+
+#check Job progress
+squeue -u $USER
+
+#.yaml file for initial run, have since updated to to get busco to run, busco memory edited at 100000 each and 8 threads, then to 250000
+__default__:
+    time: "9-0:0:0" 
+    mem: 300000
+    threads: 16
+    name: "JOBNAME.{rule}"
+    output: "logs_slurm/{rule}_%j.out"
+    error: "logs_slurm/{rule}_%j.err"
+
+trimming_adaptors:
+    time: "10:0:0" 
+    mem: 100000
+    threads: 8
+    name: "JOBNAME.{rule}"
+    output: "logs_slurm/{rule}_%j.out"
+    error: "logs_slurm/{rule}_%j.err"
+
+assemble_flye:
+    time: "1-0:0:0" 
+    mem: 100000
+    threads: 16
+    name: "JOBNAME.{rule}"
+    output: "logs_slurm/{rule}_%j.out"
+    error: "logs_slurm/{rule}_%j.err"
+
+busco:
+    time: "1-0:0:0" 
+    mem: 60000
+    threads: 8
+    name: "JOBNAME.{rule}"
+    output: "logs_slurm/{rule}_%j.out"
+    error: "logs_slurm/{rule}_%j.err"
+
+freebayes:
+    time: "2-0:0:0" 
+    mem: 60000
+    threads: 8
+    name: "JOBNAME.{rule}"
+    output: "logs_slurm/{rule}_%j.out"
+    error: "logs_slurm/{rule}_%j.err"
+
+longshot:
+    time: "2-0:0:0" 
+    mem: 60000
+    threads: 8
+    name: "JOBNAME.{rule}"
+    output: "logs_slurm/{rule}_%j.out"
+    error: "logs_slurm/{rule}_%j.err"
+

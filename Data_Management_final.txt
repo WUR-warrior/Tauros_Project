@@ -1,0 +1,104 @@
+Data management:
+
+Dear reader, just to note that often my scripts do not create the output directory of interest, so you may have to add them manually. Additionally if a script requires another script or input file to be in the input directory, you may have to move it manually. Kind regards, Matt
+Raw data:
+	Taurus sequences:
+	 From: WUR
+	 Location : /lustre/nobackup/WUR/ABGC/shared/Taurus/Raw_reads
+	 Detail: long read data from a Dutch Taurus
+	Breed sequences:
+	 From: ENA
+	 Location: /lustre/nobackup/WUR/ABGC/shared/Taurus/Founder_Breed_Sequences
+	 Detail: wgets in script:/home/WUR/watts001/scripts/wget_files_breeds.sh , Breed details in excel file: 
+	Aurochs Sequences:
+	 From: Rossi et al., 2024, https://doi.org/10.1038/s41586-024-08112-6; Erven et al., 2024 https://doi.org/10.1093/molbev/msae076
+	 Location: /lustre/nobackup/WUR/ABGC/shared/Taurus/Aurochs_Sequences
+	 Detail: wgets in scripts: /home/WUR/watts001/scripts/wget_files_galicia1sh.sh, /home/WUR/watts001/scripts/wget_files_hxh2.sh, /home/WUR/watts001/scripts/wget_files_bed.sh, Additionally sequence from Park et al. 2015 downloaded from: https://datadryad.org/dataset/doi:10.5061/dryad.f2d1q sequence details in excel file:
+	Reference genome:
+	 From: NCBI
+	 Location: /lustre/nobackup/WUR/ABGC/shared/Taurus/ARS-UCD1.2
+	 Detail: older reference genome used as it is compatible with all stages of the project. wget https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/002/263/795/GCF_002263795.1_ARS-UCD1.2/GCF_002263795.1_ARS-UCD1.2_genomic.fna.gz
+
+Scripts:
+Assembly Script:
+	 Location:/home/WUR/watts001/scripts/Assembly_Script
+	 Location:/home/WUR/watts001/scripts/quast_script.sh
+	 Detail: makes use of nanopore-assembly-pipeline-without-polishing, with detail of edits made to config and yaml files. Busco output included in assembly pipeline and quast script used for analysis
+Admixture Scripts:
+Trimming Scripts:
+	 Trimmomatic
+	  Location:/home/WUR/watts001/scripts/Trimmomatic_script.sh
+	  Location:/home/WUR/watts001/scripts/AUtrim_script.sh
+	  Detail: Separate script used for breeds and Aurochs files as processing done at different times
+Mapping:
+	 BWAmem:
+	  Location:/home/WUR/watts001/scripts/BWA_script.sh
+	  Location:/home/WUR/watts001/scripts/BAM_script
+	  Detail: Seperate script used for breeds and Aurochs files as processing done at different times
+	 Minimap2:
+	  Location:/home/WUR/watts001/scripts/minimap2_script
+	  Detail: Used for mapping of the Tauros long read sequences
+Duplicate Removal:
+     Samtools:
+      Location:/home/WUR/watts001/scripts/Markdup_script.sh
+      Location:/home/WUR/watts001/scripts/Nodups_script.sh	  
+      Location:/home/WUR/watts001/scripts/Checking_Before_BAM_script.sh 
+      Location:/home/WUR/watts001/scripts/Checking_BAM_script.sh
+      Detail: used to identify and remove PCR duplicates from the breed and aurochs BAM files
+     Fastqc :
+      Location:/home/WUR/watts001/scripts/Fastqc_script.sh
+      Detail: used to extract summary statistics on the quality of BAM files after duplicate removal
+Variant calling:
+	 Longshot:
+	  Location:/home/WUR/watts001/scripts/Index_script.sh
+	  Location:/home/WUR/watts001/scripts/Longshot_script.sh
+	  Detail: Indexing important at multiple steps for different software. Longshot was used as the Variant caller for long read Tauros sequences
+	 Freebayes:
+	  Location:/home/WUR/watts001/scripts/Sorted_script.sh
+	  Location:/home/WUR/watts001/scripts/Indexed_BAMscript.sh
+	  Location:/home/WUR/watts001/scripts/Rename_script.sh
+	  Location:/home/WUR/watts001/scripts/Freebayes_script.sh
+	  Detail: For the variant calling in freebayes a lot of preprocessing including indexing, sorting and renaming of chromosomes. 
+	 bcftools: 
+	  Detail: used bcftools stats command line for quick summary 
+Analysing Relationship Between Breed, Tauros and Aurochs:
+	bcftools:
+	 Location:/home/WUR/watts001/scripts/Zip_script_Aurochs.sh
+	 Location:/home/WUR/watts001/scripts/Zip_script2.sh
+	 Location:/home/WUR/watts001/scripts/Autosome_filter_script2.sh
+	 Location:/home/WUR/watts001/scripts/SNP_script.sh
+	 Location:/home/WUR/watts001/scripts/Merge_script.sh
+	 Location:/home/WUR/watts001/scripts/Normalise_script.sh 
+	 Location:/home/WUR/watts001/scripts/Merge_filter_script.sh
+	 Location:/home/WUR/watts001/scripts/Reference_filter_script.sh
+	 Detail:Includes steps to ensure the correct filtring is used for bcftools, followed by filtering to only use autosomes for analysis, merging to create a single file for plink input, 
+	Plink: 
+	 Location:/home/WUR/watts001/scripts/Plink_script.sh
+	 Detail:Plink analysis with LD filtering outputing PCA files and .bed file for admixture analysis
+	RAxML:
+	 Locarion: /home/WUR/watts001/scripts/Phylogenetic_tree_script.sh
+	 Detail: Produced phylogenetic trees of relationships between breeds
+	Admixture:
+ 	 Location: /home/WUR/watts001/scripts/Supervised_Admixture_LD_script.sh
+ 	 Detail: Supervised Admixture run to analyse the proportion of breeds contributing to the Tauros
+ 	Beagle: 
+ 	 Location:/home/WUR/watts001/scripts/BEAGLE_VCF_no_LD_script.sh
+ 	 Location:/home/WUR/watts001/scripts/BEAGLE_VCF_no_LD_Ancestor_script.sh
+ 	 Location:/home/WUR/watts001/scripts/BEAGLE_VCF_LD_no_ancestor_convo_script.sh
+      Detail: Initial conversion of plink output without LD filtering to VCF, followed by phasing of those VCFs in BEAGLE
+     Bcftools:
+ 	 Location:/home/WUR/watts001/scripts/Haplotype_no_LD_script.sh
+ 	 Detail: Identifying the contributions of the different input breeds to the Tauros haplotypes, as well as the similarity to the AURG aurochs sample. Plotted in R.
+ 	Python:
+	 Location:/home/WUR/watts001/scripts/Even_even_more_bull_script.sh
+	 Detail: producing bins and Z scores for comparison of breeds to the tauros sample
+	 Location:/home/WUR/watts001/scripts/Even_even_more_AURG_script.sh
+	 Detail: producing bins and Z scores for comparison of AURG to the tauros sample
+	R:
+	 Location:/home/WUR/watts001/scriptsDepth_plot.R
+	 Location:/home/WUR/watts001/scripts/coverage_plot.R
+	 Location: /home/WUR/watts001/scriptsUpdated_PCA_plot.R
+	 Location: /home/WUR/watts001/scripts/Admixture_plot.R
+	 Location: /home/WUR/watts001/scripts/Final_haplotype_script.R
+	 Detail: plotting of various plots throughout process
+      

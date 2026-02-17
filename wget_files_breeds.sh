@@ -1,0 +1,27 @@
+#Rare breed accessions
+wget -nc ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR842/001/SRR8426541/SRR8426541_1.fastq.gz
+wget -nc ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR842/009/SRR8426539/SRR8426539_1.fastq.gz
+wget -nc ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR842/001/SRR8426541/SRR8426541_2.fastq.gz
+wget -nc ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR842/003/SRR8426543/SRR8426543_1.fastq.gz
+wget -nc ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR842/004/SRR8426544/SRR8426544_1.fastq.gz
+wget -nc ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR842/000/SRR8426540/SRR8426540_1.fastq.gz
+wget -nc ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR842/000/SRR8426540/SRR8426540_2.fastq.gz
+wget -nc ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR842/005/SRR8426535/SRR8426535_1.fastq.gz
+wget -nc ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR842/002/SRR8426542/SRR8426542_1.fastq.gz
+wget -nc ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR842/003/SRR8426543/SRR8426543_2.fastq.gz
+wget -nc ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR842/006/SRR8426536/SRR8426536_1.fastq.gz
+wget -nc ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR842/007/SRR8426537/SRR8426537_1.fastq.gz
+wget -nc ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR842/005/SRR8426535/SRR8426535_2.fastq.gz
+wget -nc ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR842/008/SRR8426538/SRR8426538_1.fastq.gz
+wget -nc ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR842/002/SRR8426542/SRR8426542_2.fastq.gz
+wget -nc ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR842/006/SRR8426536/SRR8426536_2.fastq.gz
+wget -nc ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR842/004/SRR8426544/SRR8426544_2.fastq.gz
+wget -nc ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR842/009/SRR8426539/SRR8426539_2.fastq.gz
+wget -nc ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR842/007/SRR8426537/SRR8426537_2.fastq.gz
+wget -nc ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR842/008/SRR8426538/SRR8426538_2.fastq.gz
+#Highlander_accession
+wget -nc ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR960/009/SRR9606729/SRR9606729_2.fastq.gz
+wget -nc ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR960/009/SRR9606729/SRR9606729_1.fastq.gz
+wget -nc ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR337/000/ERR3374910/ERR3374910_2.fastq.gz
+wget -nc ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR337/000/ERR3374910/ERR3374910_1.fastq.gz
+wget -nc ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR337/000/ERR3374910/ERR3374910.fastq.gz
